@@ -1,4 +1,4 @@
-
+import java.util.List;
 
 public class Controller {
     private Model model;
@@ -7,9 +7,14 @@ public class Controller {
     public Controller(Model model, View view) {
         this.model = model;
         this.view = view;
+        updateView();
     }
 
-    public void start() {
+    private void updateView() {
+        List<String> languages = model.getAvailableLanguages();
+        List<String> timeOptions = model.getTimeOptions();
 
+        view.updateLists(languages, timeOptions);
     }
+
 }

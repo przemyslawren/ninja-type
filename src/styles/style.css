@@ -1,0 +1,8 @@
+.titled-pane > .title > .arrow-button .arrow {
+    -fx-shape: " ";
+}
+
+.titled-pane > .title {
+    -fx-font-size: 1.2em;
+    -fx-font-weight: bold;
+}

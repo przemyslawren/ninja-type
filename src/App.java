@@ -1,4 +1,5 @@
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.stage.Stage;
 
 public class App extends Application {
@@ -13,6 +14,6 @@ public class App extends Application {
         View view = new View(primaryStage);
         new Controller(model, view);
 
-        view.show();
+        Platform.runLater(() -> view.show());
     }
 }
