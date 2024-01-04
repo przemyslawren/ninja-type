@@ -42,11 +42,11 @@ public class View {
     private void initializeTopPanel(BorderPane rootLayout) {
         HBox topPanel = new HBox(10);
         TitledPane languagePane = new TitledPane();
-        languagePane.setText("Język");
+        languagePane.setText("Select language");
         languagePane.setContent(languageListView);
 
         TitledPane timePane = new TitledPane();
-        timePane.setText("Czas");
+        timePane.setText("Select time");
         timePane.setContent(timeListView);
 
         setPanesSettings(languagePane);

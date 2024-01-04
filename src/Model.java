@@ -3,12 +3,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static java.awt.SystemColor.text;
+
 public class Model {
     private static final String DICTIONARY_PATH = "./dictionary";
     private List<String> timeOptions;
 
     public Model() {
-        timeOptions = new ArrayList<>(Arrays.asList("15 sekund", "30 sekund", "1 minuta", "2 minuty"));
+        timeOptions = new ArrayList<>(Arrays.asList("15", "30", "45", "60","90","120","300"));
     }
 
     public List<String> getAvailableLanguages() {
@@ -19,12 +21,23 @@ public class Model {
         if (listOfFiles != null) {
             for (File file : listOfFiles) {
                 if (file.isFile()) {
-                    languages.add(file.getName());
+                    String fileName = file.getName();
+                    if (fileName.endsWith(".txt")) {
+                        String languageName = convertToTitleCase(fileName.substring(0, fileName.length() - 4));
+                        languages.add(languageName);
+                    }
                 }
             }
         }
 
         return languages;
+    }
+
+    private String convertToTitleCase(String substring) {
+        if (substring == null || substring.isEmpty()) {
+            return substring;
+        }
+        return substring.substring(0, 1).toUpperCase() + substring.substring(1).toLowerCase();
     }
 
     public List<String> getTimeOptions() {
