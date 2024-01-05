@@ -3,8 +3,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static java.awt.SystemColor.text;
-
 public class Model {
     private static final String DICTIONARY_PATH = "./dictionary";
     private List<String> timeOptions;

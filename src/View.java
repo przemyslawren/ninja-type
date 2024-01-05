@@ -1,3 +1,4 @@
+import javafx.geometry.Orientation;
 import javafx.scene.Scene;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
@@ -6,7 +7,6 @@ import javafx.scene.layout.*;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
-import java.awt.*;
 import java.util.List;
 
 public class View {
@@ -41,22 +41,18 @@ public class View {
 
     private void initializeTopPanel(BorderPane rootLayout) {
         HBox topPanel = new HBox(10);
-        TitledPane languagePane = new TitledPane();
-        languagePane.setText("Select language");
-        languagePane.setContent(languageListView);
+        languageListView.setOrientation(Orientation.HORIZONTAL);
+        setListViewSettings(languageListView);
 
-        TitledPane timePane = new TitledPane();
-        timePane.setText("Select time");
-        timePane.setContent(timeListView);
+        timeListView.setOrientation(Orientation.VERTICAL);
 
-        setPanesSettings(languagePane);
-        setPanesSettings(timePane);
+        setListViewSettings(timeListView);
+
+        topPanel.getChildren().addAll(languageListView, timeListView);
+        HBox.setHgrow(languageListView, Priority.ALWAYS);
+        HBox.setHgrow(timeListView, Priority.ALWAYS);
 
         rootLayout.setTop(topPanel);
-        topPanel.getChildren().addAll(languagePane, timePane);
-
-        HBox.setHgrow(languagePane, javafx.scene.layout.Priority.ALWAYS);
-        HBox.setHgrow(timePane, javafx.scene.layout.Priority.ALWAYS);
 
         //TODO add button to refresh list of languages
     }
@@ -69,10 +65,9 @@ public class View {
         rootLayout.setBottom(footerTextPane);
     }
 
-    private void setPanesSettings(TitledPane pane) {
-        pane.setExpanded(false);
-        pane.alignmentProperty().setValue(javafx.geometry.Pos.CENTER);
-        pane.setMaxHeight(100);
+
+    private void setListViewSettings(ListView<String> listView) {
+        listView.setMaxHeight(70);
     }
 
     private void initializeGamePanel(BorderPane rootLayout) {
@@ -82,6 +77,8 @@ public class View {
         AnchorPane.setTopAnchor(typingArea, 50.0);
         AnchorPane.setLeftAnchor(typingArea, 20.0);
         AnchorPane.setRightAnchor(typingArea, 20.0);
+
+        System.out.println(typingArea.heightProperty());
 
         gamePane.getChildren().add(typingArea);
         rootLayout.setCenter(gamePane);

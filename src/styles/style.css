@@ -1,8 +1,51 @@
-.titled-pane > .title > .arrow-button .arrow {
+.root {
+    -fx-background-color: #526D82;
+    -fx-font-family: "Roboto", sans-serif;
+
+    -fx-font-size: 1.2em;
+}
+
+.list-view {
+    -fx-background-color: #9DB2BF;
+}
+
+.list-view:focused {
+    -fx-padding: 0;
+    -fx-border-color: transparent;
+    -fx-background-insets: 0;
+}
+
+.list-view .scroll-bar {
+    -fx-background-color: transparent;
+}
+
+.list-view .scroll-bar .track {
+    -fx-background-color: #27374D;
+    -fx-background-radius: 5;
+}
+
+.list-view .scroll-bar .thumb {
+    -fx-background-color: #DDE6ED;
+}
+
+.list-view .scroll-bar .increment-arrow,
+.list-view .scroll-bar .decrement-arrow {
+    -fx-padding: 3;
     -fx-shape: " ";
 }
 
+.list-view .list-cell {
+    -fx-background-color: #9DB2BF;
+    -fx-pref-height: 40px;
+    -fx-alignment: center;
+}
+
 .titled-pane > .title {
+    -fx-background-color: #9DB2BF;
     -fx-font-size: 1.2em;
     -fx-font-weight: bold;
 }
+
+.titled-pane > .title > .arrow-button .arrow {
+     -fx-shape: " ";
+ }
