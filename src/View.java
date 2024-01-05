@@ -13,11 +13,16 @@ public class View {
     final private Stage primaryStage;
     private ListView<String> languageListView;
     private ListView<String> timeListView;
+    private TextField displayArea;
+    private TextField typingArea;
 
     public View(Stage primaryStage) {
         this.primaryStage = primaryStage;
         this.languageListView = new ListView<>();
         this.timeListView = new ListView<>();
+        this.displayArea = new TextField();
+        this.typingArea = new TextField();
+
         initializeMenu();
     }
 
@@ -72,15 +77,23 @@ public class View {
 
     private void initializeGamePanel(BorderPane rootLayout) {
         AnchorPane gamePane = new AnchorPane();
-        TextField typingArea = new TextField();
 
-        AnchorPane.setTopAnchor(typingArea, 50.0);
-        AnchorPane.setLeftAnchor(typingArea, 20.0);
-        AnchorPane.setRightAnchor(typingArea, 20.0);
+        displayArea.setEditable(false);
+        displayArea.setOpacity(0.5);
 
-        System.out.println(typingArea.heightProperty());
+        AnchorPane.setTopAnchor(displayArea, 100.0);
+        AnchorPane.setLeftAnchor(displayArea, 50.0);
+        AnchorPane.setRightAnchor(displayArea, 50.0);
+        AnchorPane.setBottomAnchor(displayArea, 100.0);
 
-        gamePane.getChildren().add(typingArea);
+        typingArea.setStyle("-fx-background-color: transparent;");
+
+        AnchorPane.setTopAnchor(typingArea, 100.0);
+        AnchorPane.setLeftAnchor(typingArea, 50.0);
+        AnchorPane.setRightAnchor(typingArea, 50.0);
+        AnchorPane.setBottomAnchor(typingArea, 100.0);
+
+        gamePane.getChildren().addAll(displayArea, typingArea);
         rootLayout.setCenter(gamePane);
 
     }
@@ -96,5 +109,17 @@ public class View {
 
     public void show() {
         primaryStage.show();
+    }
+
+    public ListView<String> getLanguageListView() {
+        return languageListView;
+    }
+
+    public TextField getDisplayArea() {
+        return displayArea;
+    }
+
+    public TextField getTypingArea() {
+        return typingArea;
     }
 }

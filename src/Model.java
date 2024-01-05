@@ -1,7 +1,9 @@
 import java.io.File;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 
 public class Model {
     private static final String DICTIONARY_PATH = "./dictionary";
@@ -29,6 +31,23 @@ public class Model {
         }
 
         return languages;
+    }
+
+    public List<String> getRandomWords(String language, int wordCount) {
+        List<String> words = new ArrayList<>();
+        Path filePath = Path.of(DICTIONARY_PATH, language + ".txt");
+
+        try {
+            List<String> allWords = java.nio.file.Files.readAllLines(filePath);
+            Random random = new Random();
+            for (int i = 0; i < wordCount; i++) {
+                words.add(allWords.get(random.nextInt(allWords.size())));
+            }
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage());
+        }
+
+        return words;
     }
 
     private String convertToTitleCase(String substring) {
