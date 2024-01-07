@@ -1,16 +1,15 @@
+package model;
+
 import java.io.File;
 import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
-public class Model {
+public class LanguageModel {
     private static final String DICTIONARY_PATH = "./dictionary";
-    private List<String> timeOptions;
 
-    public Model() {
-        timeOptions = new ArrayList<>(Arrays.asList("15", "30", "45", "60","90","120","300"));
+    public LanguageModel() {
     }
 
     public List<String> getAvailableLanguages() {
@@ -32,6 +31,7 @@ public class Model {
 
         return languages;
     }
+
 
     public List<String> getRandomWords(String language, int wordCount) {
         List<String> words = new ArrayList<>();
@@ -57,7 +57,4 @@ public class Model {
         return substring.substring(0, 1).toUpperCase() + substring.substring(1).toLowerCase();
     }
 
-    public List<String> getTimeOptions() {
-        return timeOptions;
-    }
 }

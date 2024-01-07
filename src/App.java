@@ -1,7 +1,10 @@
+import controller.Controller;
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import model.LanguageModel;
+import model.TimeOptionsModel;
+import view.View;
 
 public class App extends Application {
 
@@ -11,10 +14,10 @@ public class App extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        Model model = new Model();
+        LanguageModel languageModel = new LanguageModel();
+        TimeOptionsModel timeOptionsModel = new TimeOptionsModel();
         View view = new View(primaryStage);
-        TextField typingArea = view.getDisplayArea();
-        new Controller(model, view, typingArea);
+        new Controller(languageModel, timeOptionsModel, view);
 
         Platform.runLater(() -> view.show());
     }
