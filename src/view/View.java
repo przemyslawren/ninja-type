@@ -7,10 +7,10 @@ import javafx.stage.Stage;
 
 public class View {
     private Stage primaryStage;
+    BorderPane rootLayout;
     private TopPanel topPanel;
     private GamePanel gamePanel;
     private FooterPanel footerPanel;
-    BorderPane rootLayout;
 
     public View(Stage primaryStage) {
         this.primaryStage = primaryStage;

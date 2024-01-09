@@ -3,9 +3,6 @@ package controller;
 import model.Language;
 import model.Time;
 import utilities.LanguageLoader;
-import view.FooterPanel;
-import view.GamePanel;
-import view.TopPanel;
 import view.View;
 
 import java.util.List;
@@ -18,12 +15,8 @@ public class Controller {
     private List<String> timeOptions;
     private Time time;
     private View view;
-    private TopPanel topPanel;
-    private GamePanel gamePanel;
-    private FooterPanel footerPanel;
 
-    public Controller(Time time,
-                      View view) {
+    public Controller(Time time, View view) {
 
         this.availableLanguages = LanguageLoader.loadLanguages(DICTIONARY_PATH);
         this.timeOptions = time.getTimeOptions();
@@ -31,30 +24,30 @@ public class Controller {
         this.time = time;
         this.view = view;
 
-        this.topPanel = view.getTopPanel();
-        this.gamePanel = view.getGamePanel();
-        this.footerPanel = view.getFooterPanel();
-
         addListeners();
         updateView();
     }
 
     private void addListeners() {
-        topPanel.getLanguageListView().getSelectionModel().selectedItemProperty().addListener(
+        view.getTopPanel().getLanguageListView().getSelectionModel().selectedItemProperty().addListener(
                 (observable, oldValue, newValue) -> {
                     selectedLanguage = availableLanguages.stream()
                             .filter(language -> language.getName().equals(newValue))
                             .findFirst()
                             .orElse(null);
                     generateParagraph();
+
+                    System.out.println("Selected language: " + selectedLanguage.getName());
+                    System.out.println("Generated paragraph: " + view.getGamePanel().getDisplayArea().getText());
                 }
         );
 
-        topPanel.getTimeListView().getSelectionModel().selectedItemProperty().addListener(
+        view.getTopPanel().getTimeListView().getSelectionModel().selectedItemProperty().addListener(
                 (observable, oldValue, newValue) -> {
                     time.setTimeOptions(timeOptions);
                     time.setDefaultTime(newValue);
-//                    footerPanel.updateTime(time.getDefaultTime());
+
+                    System.out.println("Selected time: " + time.getDefaultTime());
                 }
         );
     }
@@ -66,15 +59,15 @@ public class Controller {
         for (int i = 0; i < 30; i++) {
             paragraph.append(words.get(random.nextInt(words.size()))).append(" ");
         }
-        gamePanel.getTypingArea().setText(paragraph.toString());
+        view.getGamePanel().getDisplayArea().setText(paragraph.toString());
 
     }
 
     private void updateView() {
         List<String> languageNames = this.availableLanguages.stream().map(Language::getName).toList();
 
-        topPanel.updateLists(languageNames, time.getTimeOptions());
-        topPanel.getTimeListView().getSelectionModel().select(time.getDefaultTime());
+        view.getTopPanel().updateLists(languageNames, time.getTimeOptions());
+        view.getTopPanel().getTimeListView().getSelectionModel().select(time.getDefaultTime());
     }
 
 
