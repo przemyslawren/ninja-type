@@ -52,6 +52,10 @@ public class TopPanel {
         return languageListView;
     }
 
+    public ListView<String> getTimeListView() {
+        return timeListView;
+    }
+
     public HBox getTopPanel() {
         return topPanel;
     }

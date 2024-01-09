@@ -2,8 +2,7 @@ import controller.Controller;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.stage.Stage;
-import model.LanguageModel;
-import model.TimeOptionsModel;
+import model.Time;
 import view.View;
 
 public class App extends Application {
@@ -14,10 +13,9 @@ public class App extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        LanguageModel languageModel = new LanguageModel();
-        TimeOptionsModel timeOptionsModel = new TimeOptionsModel();
+        Time time = new Time();
         View view = new View(primaryStage);
-        new Controller(languageModel, timeOptionsModel, view);
+        new Controller(time, view);
 
         Platform.runLater(() -> view.show());
     }

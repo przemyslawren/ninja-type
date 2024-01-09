@@ -6778,7 +6778,7 @@ nade
 napadne
 koberec
 ukážeš
-times
+languages
 knihovně
 olivie
 nástroje
