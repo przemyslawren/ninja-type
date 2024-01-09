@@ -5,6 +5,10 @@
     -fx-font-size: 1.2em;
 }
 
+.top-panel {
+    -fx-background-color: #9DB2BF;
+}
+
 .list-view {
     -fx-background-color: #9DB2BF;
 }

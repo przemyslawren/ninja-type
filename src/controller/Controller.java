@@ -1,7 +1,9 @@
 package controller;
 
+import javafx.application.Platform;
 import model.Language;
 import model.Time;
+import utilities.GameTimer;
 import utilities.LanguageLoader;
 import view.View;
 
@@ -13,6 +15,7 @@ public class Controller {
     private List<Language> availableLanguages;
     private Language selectedLanguage;
     private List<String> timeOptions;
+    private GameTimer gameTimer;
     private Time time;
     private View view;
 
@@ -25,7 +28,9 @@ public class Controller {
         this.view = view;
 
         addListeners();
+        addActions();
         updateView();
+        view.toggleInstructionPanel(true);
     }
 
     private void addListeners() {
@@ -35,10 +40,7 @@ public class Controller {
                             .filter(language -> language.getName().equals(newValue))
                             .findFirst()
                             .orElse(null);
-                    generateParagraph();
-
                     System.out.println("Selected language: " + selectedLanguage.getName());
-                    System.out.println("Generated paragraph: " + view.getGamePanel().getDisplayArea().getText());
                 }
         );
 
@@ -53,6 +55,33 @@ public class Controller {
         );
     }
 
+    private void addActions() {
+        view.getInstructionPanel().getStartButton().setOnAction(
+                event -> {
+                    view.toggleInstructionPanel(false);
+                    startGame();
+                }
+        );
+    }
+
+    private void startGame() {
+        view.getGamePanel().getInputArea().requestFocus();
+        gameTimer = new GameTimer(Integer.parseInt(time.getCurrentTime()), this::updateTimeLabel);
+        gameTimer.start();
+        generateParagraph();
+    }
+
+    private void updateTimeLabel() {
+        Platform.runLater(() -> {
+            int currentTime = gameTimer.getTime();
+            view.getFooterPanel().getTimerLabel().setText(currentTime + "");
+            if (currentTime == 0) {
+                gameTimer.stopTimer();
+//                view.toggleResultPanel(true);
+            }
+        });
+    }
+
     private void generateParagraph() {
         Random random = new Random();
         List<String> words = selectedLanguage.getDictionary();
@@ -61,7 +90,7 @@ public class Controller {
             paragraph.append(words.get(random.nextInt(words.size()))).append(" ");
         }
         view.getGamePanel().getDisplayArea().setText(paragraph.toString());
-
+        System.out.println("Generated paragraph: " + paragraph);
     }
 
     private void updateView() {
@@ -69,6 +98,7 @@ public class Controller {
 
         view.getTopPanel().updateLists(languageNames, time.getTimeOptions());
         view.getTopPanel().getTimeListView().getSelectionModel().select(time.getCurrentTime());
+        view.getFooterPanel().getTimerLabel().setText(time.getCurrentTime());
     }
 
 

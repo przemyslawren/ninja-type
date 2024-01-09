@@ -7,17 +7,16 @@ import javafx.scene.layout.Priority;
 
 import java.util.List;
 
-public class TopPanel {
-    private HBox topPanel;
+public class TopPanel extends HBox {
     private ListView<String> languageListView;
     private ListView<String> timeListView;
 
     public TopPanel() {
+        super(100);
         initializeTopPanel();
     }
 
     private void initializeTopPanel() {
-        topPanel = new HBox(10);
         languageListView = new ListView<>();
         timeListView = new ListView<>();
 
@@ -28,11 +27,12 @@ public class TopPanel {
 
         setListViewSettings(timeListView);
 
-        topPanel.getChildren().addAll(languageListView, timeListView);
+        getChildren().addAll(languageListView, timeListView);
         HBox.setHgrow(languageListView, Priority.ALWAYS);
         HBox.setHgrow(timeListView, Priority.ALWAYS);
 
         //TODO add button to refresh list of languages
+        getStyleClass().add("top-panel");
     }
 
     private void setListViewSettings(ListView<String> listView) {
@@ -57,6 +57,6 @@ public class TopPanel {
     }
 
     public HBox getTopPanel() {
-        return topPanel;
+        return this;
     }
 }

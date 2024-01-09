@@ -3,49 +3,46 @@ package view;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 
-public class GamePanel {
-
-    AnchorPane gamePanel;
+public class GamePanel extends AnchorPane {
     private TextField displayArea;
-    private TextField typingArea;
+    private TextField inputArea;
 
     public GamePanel() {
         initializeGamePanel();
     }
 
     private void initializeGamePanel() {
-        gamePanel = new AnchorPane();
         displayArea = new TextField();
-        typingArea = new TextField();
+        inputArea = new TextField();
 
         displayArea.setEditable(false);
         displayArea.setOpacity(0.5);
 
-        AnchorPane.setTopAnchor(displayArea, 100.0);
-        AnchorPane.setLeftAnchor(displayArea, 50.0);
-        AnchorPane.setRightAnchor(displayArea, 50.0);
-        AnchorPane.setBottomAnchor(displayArea, 100.0);
+        setTopAnchor(displayArea, 100.0);
+        setLeftAnchor(displayArea, 0.0);
+        setRightAnchor(displayArea, 0.0);
+        setBottomAnchor(displayArea, 100.0);
 
-        typingArea.setStyle("-fx-background-color: transparent;");
+        inputArea.setStyle("-fx-background-color: transparent;");
 
-        AnchorPane.setTopAnchor(typingArea, 100.0);
-        AnchorPane.setLeftAnchor(typingArea, 50.0);
-        AnchorPane.setRightAnchor(typingArea, 50.0);
-        AnchorPane.setBottomAnchor(typingArea, 100.0);
+        setTopAnchor(inputArea, 100.0);
+        setLeftAnchor(inputArea, 0.0);
+        setRightAnchor(inputArea, 0.0);
+        setBottomAnchor(inputArea, 100.0);
 
-        gamePanel.getChildren().addAll(displayArea, typingArea);
+        getChildren().addAll(displayArea, inputArea);
     }
 
     public TextField getDisplayArea() {
         return displayArea;
     }
 
-    public TextField getTypingArea() {
-        return typingArea;
+    public TextField getInputArea() {
+        return inputArea;
     }
 
     public AnchorPane getGamePanel() {
-        return gamePanel;
+        return this;
     }
 
 }

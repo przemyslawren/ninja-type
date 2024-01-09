@@ -10,7 +10,7 @@ public class Time {
     private String currentTime = defaultTime;
 
     public Time() {
-        timeOptions = new ArrayList<>(Arrays.asList("15", "20", "45", "60", "90", "120", "300"
+        timeOptions = new ArrayList<>(Arrays.asList("15", "20","30", "45", "60", "90", "120", "300"
         ));
     }
 

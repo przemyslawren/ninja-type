@@ -1,11 +1,9 @@
 package view;
 
 import javafx.scene.control.Label;
-import javafx.scene.control.TitledPane;
 import javafx.scene.layout.BorderPane;
 
-public class FooterPanel {
-    BorderPane footerPanel;
+public class FooterPanel extends BorderPane {
     Label shortcutsPanel;
     Label timeLabel;
 
@@ -14,22 +12,20 @@ public class FooterPanel {
     }
 
     private void initializeFooterPanel() {
-        footerPanel = new BorderPane();
         shortcutsPanel = new Label();
         shortcutsPanel.setText("• tab + enter - restart test\n" +
                 "• ctrl + shift + p - pause\n" +
                 "• esc - end test\n");
-        timeLabel = new Label("00:30");
+        timeLabel = new Label("00:00:00");
         timeLabel.getStyleClass().add("time-label");
 
-
-        footerPanel.setLeft(shortcutsPanel);
-        footerPanel.setRight(timeLabel);
-        footerPanel.getStyleClass().add("footer-panel");
+        setLeft(shortcutsPanel);
+        setRight(timeLabel);
+        getStyleClass().add("footer-panel");
     }
 
     public BorderPane getFooterPanel() {
-        return footerPanel;
+        return this;
     }
 
     public Label getTimerLabel() {
