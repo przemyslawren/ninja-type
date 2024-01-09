@@ -45,9 +45,10 @@ public class Controller {
         view.getTopPanel().getTimeListView().getSelectionModel().selectedItemProperty().addListener(
                 (observable, oldValue, newValue) -> {
                     time.setTimeOptions(timeOptions);
-                    time.setDefaultTime(newValue);
+                    time.setCurrentTime(newValue);
+                    view.getFooterPanel().getTimerLabel().setText(time.getCurrentTime());
 
-                    System.out.println("Selected time: " + time.getDefaultTime());
+                    System.out.println("Selected time: " + time.getCurrentTime());
                 }
         );
     }
@@ -67,7 +68,7 @@ public class Controller {
         List<String> languageNames = this.availableLanguages.stream().map(Language::getName).toList();
 
         view.getTopPanel().updateLists(languageNames, time.getTimeOptions());
-        view.getTopPanel().getTimeListView().getSelectionModel().select(time.getDefaultTime());
+        view.getTopPanel().getTimeListView().getSelectionModel().select(time.getCurrentTime());
     }
 
 

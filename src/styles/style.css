@@ -40,12 +40,17 @@
     -fx-alignment: center;
 }
 
-.titled-pane > .title {
+.footer-panel {
     -fx-background-color: #9DB2BF;
+    -fx-padding: 10;
+}
+
+.footer-panel .text {
     -fx-font-size: 1.2em;
     -fx-font-weight: bold;
 }
 
-.titled-pane > .title > .arrow-button .arrow {
-     -fx-shape: " ";
- }
+.footer-panel .time-label {
+    -fx-font-size: 40px;
+    -fx-font-weight: bold;
+}

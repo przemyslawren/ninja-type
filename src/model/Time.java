@@ -7,17 +7,19 @@ import java.util.List;
 public class Time {
     private List<String> timeOptions;
     private String defaultTime = "30";
+    private String currentTime = defaultTime;
 
     public Time() {
-        timeOptions = new ArrayList<>(Arrays.asList("30", "60", "90", "120"));;
+        timeOptions = new ArrayList<>(Arrays.asList("15", "20", "45", "60", "90", "120", "300"
+        ));
     }
 
-    public void setDefaultTime(String defaultTime) {
-        this.defaultTime = defaultTime;
+    public void setCurrentTime(String time) {
+        this.currentTime = time;
     }
 
-    public String getDefaultTime() {
-        return defaultTime;
+    public String getCurrentTime() {
+        return currentTime;
     }
 
     public void setTimeOptions(List<String> timeOptions) {
