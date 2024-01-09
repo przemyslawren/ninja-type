@@ -48,7 +48,7 @@ public class Controller {
                 (observable, oldValue, newValue) -> {
                     time.setTimeOptions(timeOptions);
                     time.setCurrentTime(newValue);
-                    view.getFooterPanel().getTimerLabel().setText(time.getCurrentTime());
+                    view.getFooterPanel().getTimerLabel().setText(formatTime(Integer.parseInt(time.getCurrentTime())));
 
                     System.out.println("Selected time: " + time.getCurrentTime());
                 }
@@ -74,12 +74,18 @@ public class Controller {
     private void updateTimeLabel() {
         Platform.runLater(() -> {
             int currentTime = gameTimer.getTime();
-            view.getFooterPanel().getTimerLabel().setText(currentTime + "");
+            view.getFooterPanel().getTimerLabel().setText(formatTime(currentTime));
             if (currentTime == 0) {
                 gameTimer.stopTimer();
 //                view.toggleResultPanel(true);
             }
         });
+    }
+
+    private String formatTime(int totalSeconds) {
+        int minutes = totalSeconds / 60;
+        int seconds = totalSeconds % 60;
+        return String.format("%02d:%02d", minutes, seconds);
     }
 
     private void generateParagraph() {
@@ -98,7 +104,7 @@ public class Controller {
 
         view.getTopPanel().updateLists(languageNames, time.getTimeOptions());
         view.getTopPanel().getTimeListView().getSelectionModel().select(time.getCurrentTime());
-        view.getFooterPanel().getTimerLabel().setText(time.getCurrentTime());
+        view.getFooterPanel().getTimerLabel().setText(formatTime(Integer.parseInt(time.getCurrentTime())));
     }
 
 
