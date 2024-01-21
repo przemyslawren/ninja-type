@@ -12,7 +12,6 @@ public class View extends BorderPane {
     private TopPanel topPanel;
     private GamePanel gamePanel;
     private FooterPanel footerPanel;
-    private InstructionPanel instructionPanel;
 
     public View(Stage primaryStage) {
         this.primaryStage = primaryStage;
@@ -20,9 +19,9 @@ public class View extends BorderPane {
         this.topPanel = new TopPanel();
         this.gamePanel = new GamePanel();
         this.footerPanel = new FooterPanel();
-        this.instructionPanel = new InstructionPanel();
 
         initializeMenu();
+
     }
 
     private void initializeMenu() {
@@ -48,14 +47,6 @@ public class View extends BorderPane {
         Platform.exit();
     }
 
-    public void toggleInstructionPanel(boolean show) {
-        if (show) {
-            setCenter(instructionPanel.getInstructionPanel());
-        } else {
-            setCenter(gamePanel.getGamePanel());
-        }
-    }
-
     public TopPanel getTopPanel() {
         return topPanel;
     }
@@ -66,10 +57,6 @@ public class View extends BorderPane {
 
     public FooterPanel getFooterPanel() {
         return footerPanel;
-    }
-
-    public InstructionPanel getInstructionPanel() {
-        return instructionPanel;
     }
 
 

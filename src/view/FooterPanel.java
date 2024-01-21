@@ -13,7 +13,7 @@ public class FooterPanel extends BorderPane {
 
     private void initializeFooterPanel() {
         shortcutsPanel = new Label();
-        shortcutsPanel.setText("• tab + enter - restart test\n" +
+        shortcutsPanel.setText("• ctrl + enter - restart test\n" +
                 "• ctrl + shift + p - pause\n" +
                 "• esc - end test\n");
         timeLabel = new Label("00:00:00");

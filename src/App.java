@@ -15,7 +15,7 @@ public class App extends Application {
     public void start(Stage primaryStage) {
         Time time = new Time();
         View view = new View(primaryStage);
-        new Controller(time, view);
+        new  Controller(time, view);
 
         Platform.runLater(() -> view.show());
     }

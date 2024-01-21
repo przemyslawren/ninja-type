@@ -1,6 +1,16 @@
 package controller;
 
 import javafx.application.Platform;
+import javafx.scene.Scene;
+import javafx.scene.chart.BarChart;
+import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.input.KeyCombination;
+import javafx.stage.Stage;
+import model.GameStats;
 import model.Language;
 import model.Time;
 import utilities.GameTimer;
@@ -16,6 +26,7 @@ public class Controller {
     private Language selectedLanguage;
     private List<String> timeOptions;
     private GameTimer gameTimer;
+    private GameStats gameStats;
     private Time time;
     private View view;
 
@@ -23,14 +34,36 @@ public class Controller {
 
         this.availableLanguages = LanguageLoader.loadLanguages(DICTIONARY_PATH);
         this.timeOptions = time.getTimeOptions();
+        selectedLanguage = availableLanguages.stream()
+                .filter(language -> language.getName().equalsIgnoreCase("english"))
+                .findFirst()
+                .orElse(null);
+
 
         this.time = time;
         this.view = view;
+        this.gameStats = new GameStats();
 
         addListeners();
-        addActions();
         updateView();
-        view.toggleInstructionPanel(true);
+        addShortcuts();
+    }
+
+    private void addShortcuts() {
+
+        KeyCombination restartCombination = new KeyCodeCombination(KeyCode.ENTER, KeyCombination.CONTROL_DOWN);
+        KeyCombination pauseCombination = new KeyCodeCombination(KeyCode.P, KeyCombination.CONTROL_DOWN, KeyCombination.SHIFT_DOWN);
+        KeyCombination endTestCombination = new KeyCodeCombination(KeyCode.ESCAPE);
+
+        view.getScene().setOnKeyPressed(event -> {
+            if (restartCombination.match(event)) {
+                restartGame();
+            } else if (pauseCombination.match(event)) {
+                pauseGame();
+            } else if (endTestCombination.match(event)) {
+                endGame();
+            }
+        });
     }
 
     private void addListeners() {
@@ -41,6 +74,9 @@ public class Controller {
                             .findFirst()
                             .orElse(null);
                     System.out.println("Selected language: " + selectedLanguage.getName());
+                    if (areGameSettingsComplete()) {
+                        restartGame();
+                    }
                 }
         );
 
@@ -51,15 +87,9 @@ public class Controller {
                     view.getFooterPanel().getTimerLabel().setText(formatTime(Integer.parseInt(time.getCurrentTime())));
 
                     System.out.println("Selected time: " + time.getCurrentTime());
-                }
-        );
-    }
-
-    private void addActions() {
-        view.getInstructionPanel().getStartButton().setOnAction(
-                event -> {
-                    view.toggleInstructionPanel(false);
-                    startGame();
+                    if (areGameSettingsComplete()) {
+                        restartGame();
+                    }
                 }
         );
     }
@@ -71,15 +101,48 @@ public class Controller {
         generateParagraph();
     }
 
+    private void restartGame() {
+        if (gameTimer != null) {
+            gameTimer.stopTimer();
+            gameTimer = null;
+        }
+        startGame();
+    }
+
+    private void pauseGame() {
+        if (gameTimer != null) {
+            if (gameTimer.isPaused()) {
+                gameTimer.resumeTimer();
+            } else {
+                gameTimer.pauseTimer();
+            }
+        }
+    }
+
+    private void endGame() {
+        if (gameTimer != null) {
+            gameTimer.stopTimer();
+            updateGameStats();
+            showStatsChart();
+        }
+    }
+
     private void updateTimeLabel() {
         Platform.runLater(() -> {
             int currentTime = gameTimer.getTime();
             view.getFooterPanel().getTimerLabel().setText(formatTime(currentTime));
             if (currentTime == 0) {
                 gameTimer.stopTimer();
-//                view.toggleResultPanel(true);
+                updateGameStats();
+                showStatsChart();
             }
         });
+    }
+
+    private void updateGameStats() {
+        String displayText = view.getGamePanel().getDisplayArea().getText();
+        String userInput = view.getGamePanel().getInputArea().getText();
+        gameStats.updateStats(displayText, userInput);
     }
 
     private String formatTime(int totalSeconds) {
@@ -100,11 +163,62 @@ public class Controller {
     }
 
     private void updateView() {
-        List<String> languageNames = this.availableLanguages.stream().map(Language::getName).toList();
+        List<String> languageNames = this.availableLanguages.stream()
+                .map(Language::getName)
+                .toList();
 
         view.getTopPanel().updateLists(languageNames, time.getTimeOptions());
-        view.getTopPanel().getTimeListView().getSelectionModel().select(time.getCurrentTime());
+
+        if (selectedLanguage == null) {
+            int defaultIndex = languageNames.indexOf(selectedLanguage.getName());
+            view.getTopPanel().getLanguageListView().getSelectionModel().select(defaultIndex);
+        }
+
+        if (time.getCurrentTime() == null) {
+            int defaultIndex = timeOptions.indexOf(time.getCurrentTime());
+            view.getTopPanel().getTimeListView().getSelectionModel().select(defaultIndex);
+        }
+
+//        view.getTopPanel().getTimeListView().getSelectionModel().select(time.getCurrentTime());
         view.getFooterPanel().getTimerLabel().setText(formatTime(Integer.parseInt(time.getCurrentTime())));
+    }
+
+    private boolean areGameSettingsComplete() {
+        return selectedLanguage != null && time.getCurrentTime() != null;
+    }
+
+    private void showStatsChart() {
+        // Create and configure the chart
+        BarChart<String, Number> statsChart = createStatsChart();
+
+        // Display the chart in a new stage (window)
+        Stage chartStage = new Stage();
+        chartStage.setTitle("Game Statistics");
+        Scene scene = new Scene(statsChart, 800, 600);
+        chartStage.setScene(scene);
+        chartStage.show();
+    }
+
+    private BarChart<String, Number> createStatsChart() {
+        CategoryAxis xAxis = new CategoryAxis();
+        NumberAxis yAxis = new NumberAxis();
+        BarChart<String, Number> barChart = new BarChart<>(xAxis, yAxis);
+
+        xAxis.setLabel("Category");
+        yAxis.setLabel("Count");
+
+        // Correct words bar
+        XYChart.Series<String, Number> correctSeries = new XYChart.Series<>();
+        correctSeries.setName("Correct Words");
+        correctSeries.getData().add(new XYChart.Data<>("Words", gameStats.getCorrectWordCount()));
+
+        // Incorrect words bar
+        XYChart.Series<String, Number> incorrectSeries = new XYChart.Series<>();
+        incorrectSeries.setName("Incorrect Words");
+        incorrectSeries.getData().add(new XYChart.Data<>("Words", gameStats.getIncorrectWordCount()));
+
+        barChart.getData().addAll(correctSeries, incorrectSeries);
+        return barChart;
     }
 
 

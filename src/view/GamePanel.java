@@ -1,5 +1,4 @@
 package view;
-
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 
@@ -15,7 +14,6 @@ public class GamePanel extends AnchorPane {
         displayArea = new TextField();
         inputArea = new TextField();
 
-        displayArea.setEditable(false);
         displayArea.setOpacity(0.5);
 
         setTopAnchor(displayArea, 100.0);
@@ -31,6 +29,32 @@ public class GamePanel extends AnchorPane {
         setBottomAnchor(inputArea, 100.0);
 
         getChildren().addAll(displayArea, inputArea);
+
+        inputArea.textProperty().addListener((observable, oldValue, newValue) -> compareTexts());
+    }
+
+    private void compareTexts() {
+        String displayText = displayArea.getText();
+        String userInput = inputArea.getText();
+
+        if (displayText.startsWith(userInput)) {
+            // Correct so far
+            // You can add more logic here, such as updating the UI to show correctness
+            System.out.println("Correct so far");
+            inputArea.setStyle("-fx-text-fill: green;" +
+                    "-fx-background-color: transparent;" +
+                    "-fx-border-color: transparent;");
+            String typedText = displayText.substring(0, userInput.length());
+            String remainingText = displayText.substring(userInput.length());
+            displayArea.setText(typedText + remainingText);
+        } else {
+            // Incorrect input
+            // You can add more logic here, such as highlighting the error
+            System.out.println("Incorrect input");
+            inputArea.setStyle("-fx-text-fill: red;"
+                    + "-fx-background-color: transparent;"
+                    + "-fx-border-color: transparent;");
+        }
     }
 
     public TextField getDisplayArea() {
