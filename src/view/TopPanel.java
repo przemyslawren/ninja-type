@@ -31,7 +31,6 @@ public class TopPanel extends HBox {
         HBox.setHgrow(languageListView, Priority.ALWAYS);
         HBox.setHgrow(timeListView, Priority.ALWAYS);
 
-        //TODO add button to refresh list of languages
         getStyleClass().add("top-panel");
     }
 

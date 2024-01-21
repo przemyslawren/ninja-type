@@ -1,12 +1,12 @@
 .centered-content {
     -fx-alignment: center;
-    -fx-margin: 100 50 50 50; /* Góra, Prawa, Dół, Lewa */
+    -fx-margin: 100 50 50 50;
 }
 
 .correct-text {
-    -fx-text-fill: green; /* Kolor poprawnego tekstu */
+    -fx-text-fill: green;
 }
 
 .incorrect-text {
-    -fx-text-fill: red; /* Kolor niepoprawnego tekstu */
+    -fx-text-fill: red;
 }

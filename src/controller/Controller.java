@@ -178,8 +178,6 @@ public class Controller {
             int defaultIndex = timeOptions.indexOf(time.getCurrentTime());
             view.getTopPanel().getTimeListView().getSelectionModel().select(defaultIndex);
         }
-
-//        view.getTopPanel().getTimeListView().getSelectionModel().select(time.getCurrentTime());
         view.getFooterPanel().getTimerLabel().setText(formatTime(Integer.parseInt(time.getCurrentTime())));
     }
 
@@ -188,10 +186,8 @@ public class Controller {
     }
 
     private void showStatsChart() {
-        // Create and configure the chart
         BarChart<String, Number> statsChart = createStatsChart();
 
-        // Display the chart in a new stage (window)
         Stage chartStage = new Stage();
         chartStage.setTitle("Game Statistics");
         Scene scene = new Scene(statsChart, 800, 600);
@@ -207,12 +203,10 @@ public class Controller {
         xAxis.setLabel("Category");
         yAxis.setLabel("Count");
 
-        // Correct words bar
         XYChart.Series<String, Number> correctSeries = new XYChart.Series<>();
         correctSeries.setName("Correct Words");
         correctSeries.getData().add(new XYChart.Data<>("Words", gameStats.getCorrectWordCount()));
 
-        // Incorrect words bar
         XYChart.Series<String, Number> incorrectSeries = new XYChart.Series<>();
         incorrectSeries.setName("Incorrect Words");
         incorrectSeries.getData().add(new XYChart.Data<>("Words", gameStats.getIncorrectWordCount()));

@@ -38,8 +38,6 @@ public class GamePanel extends AnchorPane {
         String userInput = inputArea.getText();
 
         if (displayText.startsWith(userInput)) {
-            // Correct so far
-            // You can add more logic here, such as updating the UI to show correctness
             System.out.println("Correct so far");
             inputArea.setStyle("-fx-text-fill: green;" +
                     "-fx-background-color: transparent;" +
@@ -48,8 +46,6 @@ public class GamePanel extends AnchorPane {
             String remainingText = displayText.substring(userInput.length());
             displayArea.setText(typedText + remainingText);
         } else {
-            // Incorrect input
-            // You can add more logic here, such as highlighting the error
             System.out.println("Incorrect input");
             inputArea.setStyle("-fx-text-fill: red;"
                     + "-fx-background-color: transparent;"
